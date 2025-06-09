@@ -1,4 +1,5 @@
 import { useTodos } from "../context/TodoContext";
+import type { TodosProps } from "../types/TodosProps";
 import TodoItem from "./TodoItem";
 
 const TodoList = () => {
@@ -25,32 +26,33 @@ const TodoList = () => {
     });
   };
 
+  const renderList = (title: string, items: TodosProps[]) => {
+    return (
+      <div>
+        <h4 className="todo-item-list-title-do">{title}</h4>
+        {items.map((todo) => (
+          <TodoItem
+            key={todo.id}
+            {...todo}
+            onEdit={handleEditTodo}
+            onDelete={handleDeleteTodo}
+            onToggle={handleToggle}
+          />
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="todo-item-list">
-      <h4 className="todo-item-list-title-do">할 일</h4>
-      {state
-        .filter((todo) => !todo.done)
-        .map((todo) => (
-          <TodoItem
-            key={todo.id}
-            {...todo}
-            onEdit={handleEditTodo}
-            onDelete={handleDeleteTodo}
-            onToggle={handleToggle}
-          />
-        ))}
-      <h4 className="todo-item-list-title-done">완료한 항목</h4>
-      {state
-        .filter((todo) => todo.done)
-        .map((todo) => (
-          <TodoItem
-            key={todo.id}
-            {...todo}
-            onEdit={handleEditTodo}
-            onDelete={handleDeleteTodo}
-            onToggle={handleToggle}
-          />
-        ))}
+      {renderList(
+        "할 일",
+        state.filter((todo) => !todo.done)
+      )}
+      {renderList(
+        "완료한 항목",
+        state.filter((todo) => todo.done)
+      )}
     </div>
   );
 };
