@@ -1,20 +1,25 @@
 import { useState, type KeyboardEvent } from "react";
+import { useTodos } from "../context/TodoContext";
 
-type TodoInputProps = {
-  onAdd: (value: string) => void;
-};
-
-const TodoInput = ({ onAdd }: TodoInputProps) => {
+const TodoInput = () => {
+  const { dispatch } = useTodos();
   const [value, setValue] = useState("");
+
+  const handleAddTodo = (value: string) => {
+    dispatch({
+      type: "Add",
+      payload: value,
+    });
+  };
 
   const hanleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      handleAddTodo();
+      handleAdd();
     }
   };
 
-  const handleAddTodo = () => {
-    onAdd(value);
+  const handleAdd = () => {
+    handleAddTodo(value);
     setValue("");
   };
 
@@ -26,7 +31,7 @@ const TodoInput = ({ onAdd }: TodoInputProps) => {
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={hanleKeyDown}
       />
-      <button onClick={handleAddTodo}>추가</button>
+      <button onClick={handleAdd}>추가</button>
     </div>
   );
 };
