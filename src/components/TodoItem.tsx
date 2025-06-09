@@ -1,4 +1,4 @@
-import { useState, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import type { TodosProps } from "../types/TodosProps";
 
 type TodoItemProps = TodosProps & {
@@ -17,6 +17,7 @@ const TodoItem = ({
 }: TodoItemProps) => {
   const [newValue, setNewValue] = useState(text);
   const [isEditing, setIsEditing] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleEditTodo = () => {
     setIsEditing(true);
@@ -33,6 +34,14 @@ const TodoItem = ({
     }
   };
 
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      const input = inputRef.current;
+      input.focus();
+      input.setSelectionRange(input.value.length, input.value.length);
+    }
+  });
+
   return (
     <div className="todo-item">
       <div className="todo-item-left-wrapper">
@@ -48,6 +57,7 @@ const TodoItem = ({
             onChange={(e) => setNewValue(e.target.value)}
             className="todo-input-new"
             onKeyDown={handleKeyDown}
+            ref={inputRef}
           />
         ) : (
           <span className={`todo-input-text ${done ? "text-done" : ""}`}>
