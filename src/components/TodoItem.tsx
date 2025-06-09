@@ -59,7 +59,7 @@ const TodoItem = ({
         {isEditing ? (
           <button onClick={handleEditComplete}>완료</button>
         ) : (
-          <button onClick={handleEditTodo}>수정</button>
+          !done && <button onClick={handleEditTodo}>수정</button>
         )}
         <button onClick={() => onDelete(id)}>삭제</button>
       </div>

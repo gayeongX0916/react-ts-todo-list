@@ -5,7 +5,10 @@ import TodoList from "./components/TodoList";
 import type { TodosProps } from "./types/TodosProps";
 
 function App() {
-  const [todos, setTodos] = useState<TodosProps[]>([]);
+  const [todos, setTodos] = useState<TodosProps[]>(() => {
+    const saved = localStorage.getItem("todos");
+    return saved ? JSON.parse(saved) : [];
+  });
 
   const handleAddTodo = (value: string) => {
     const newAdd = {
@@ -33,6 +36,10 @@ function App() {
       )
     );
   };
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   return (
     <div className="todo-list">
