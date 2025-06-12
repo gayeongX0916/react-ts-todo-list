@@ -12,5 +12,6 @@ React + TypeScript + Vite로 만든 Todo List
 - CSS
 - React
 - TypeScript
+- Vite
 
 ![image](https://github.com/user-attachments/assets/b1b33387-7bbf-40d0-9508-47551c8c8218)
